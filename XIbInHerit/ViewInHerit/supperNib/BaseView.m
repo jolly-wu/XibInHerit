@@ -37,11 +37,18 @@
 - (void)onTap:(UITapGestureRecognizer *)gz
 {
     NSLog(@"onTap-----[gz=%@]",gz);
+    [self showAlert:@"点击了被遮挡的视图"];
 }
 
 - (void)showAlert:(NSString *)msg
 {
-    
+    UIAlertController * alertVC = [UIAlertController alertControllerWithTitle:@"" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    __weak typeof(alertVC) weakAlert = alertVC;
+    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakAlert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertVC addAction:action];
+    [self.window.rootViewController presentViewController:alertVC animated:YES completion:nil];
 }
 
 @end
